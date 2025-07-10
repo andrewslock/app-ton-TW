@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "cx.h"
+#include "lcx_sha256.h"
 
 #include "cell.h"
 
