@@ -7,9 +7,18 @@ project(TxParser
 # specify C standard
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
-set(CMAKE_C_FLAGS_DEBUG
-    "${CMAKE_C_FLAGS_DEBUG} -Werror -Wall -Wextra -Wno-unused-function -DFUZZ -pedantic -g -O0 -fsanitize=fuzzer,address,undefined"
-)
+
+# set one specific SANITIZER for workflow
+if(DEFINED ENV{SANITIZER})
+    set(CMAKE_C_FLAGS_DEBUG
+        "${CMAKE_C_FLAGS_DEBUG} -Werror -Wall -Wextra -Wno-unused-function -DFUZZ -pedantic -g -O0 -fsanitize=fuzzer,$ENV{SANITIZER}"
+    )
+else()
+    set(CMAKE_C_FLAGS_DEBUG
+        "${CMAKE_C_FLAGS_DEBUG} -Werror -Wall -Wextra -Wno-unused-function -DFUZZ -pedantic -g -O0 -fsanitize=fuzzer,address,undefined"
+    )
+endif()
+
 
 add_library(txparser
     ${BOLOS_SDK}/lib_standard_app/format.c
